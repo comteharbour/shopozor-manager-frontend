@@ -1,40 +1,11 @@
 <template>
-  <q-page class="q-pa-md row justify-center">
-    <div class="row gutter-sm">
-      <q-input
-        class="col-xs-12 col-sm-10 col-md-8 col-lg-6 col-xl-4"
-        v-model="mail"
-        type="email" />
-      <q-input
-        class="col-7"
-        v-model="password"
-        type="password" />
-      <q-btn
-        class="col-12"
-        color="primary"
-        label="Se connecter"
-        @click="login({email: mail, password: password})" />
-      <div
-        class="col-8">{{ authorization }}</div>
-      <div
-        class="col-8">{{ userId }}</div>
-      <q-btn
-        class="col-6"
-        color="primary"
-        :label="`counter 1 : ${counter1}`"
-        @click="increment1" />
-      <q-btn
-        class="col-6"
-        color="primary"
-        :label="`counter 2 : ${counter2}`"
-        @click="increment2" />
-      <div class="col-8">dummy content</div>
+  <q-page padding class="row justify-center flex-gutter-docs">
+    <div style="width: 800px; max-width: 90vw;">
+      <q-input label="e-mail" v-model="email"></q-input>
+      <q-btn @click="login({email, password})" label="se connecter"></q-btn>
     </div>
   </q-page>
 </template>
-
-<style>
-</style>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
@@ -51,7 +22,7 @@ export default {
   },
   data () {
     return {
-      mail: '',
+      email: '',
       password: ''
     }
   },
@@ -64,3 +35,16 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.flex-gutter-docs
+  .doc-container.with-bg
+    background rgba(255,0,0,.1)
+    overflow hidden
+  .doc-container + .doc-container
+    margin-top 25px
+  .my-content
+    padding 10px 15px
+    background rgba(86,61,124,.15)
+    border 1px solid rgba(86,61,124,.2)
+</style>
