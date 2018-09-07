@@ -1,0 +1,6 @@
+export const NOT_CONNECTED = 'not connected'
+export const CONSUMER = 'consumer'
+export const PRODUCER = 'producer'
+export const SHOP_MANAGER = 'shop manager'
+export const TOP_MANAGER = 'top manager'
+export const SOFTOZOR = 'softozor'
