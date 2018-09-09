@@ -1,8 +1,11 @@
 <template>
   <q-page padding class="row justify-center flex-gutter-docs">
     <div style="width: 800px; max-width: 90vw;">
-      <q-input label="e-mail" v-model="email"></q-input>
-      <q-btn @click="login({email, password})" label="se connecter"></q-btn>
+      <q-input label="message" v-model="message"></q-input>
+      <q-btn @click="testAsync(message)" label="Test"></q-btn>
+      <div>{{`loading : ${loading}`}}</div>
+      <div>{{`response : ${response}`}}</div>
+      <div>{{`error : ${error}`}}</div>
     </div>
   </q-page>
 </template>
@@ -17,20 +20,25 @@ export default {
       'authorization',
       'userId',
       'counter1',
-      'counter2'
+      'counter2',
+      'loading',
+      'response',
+      'error'
     ])
   },
   data () {
     return {
       email: '',
-      password: ''
+      password: '',
+      message: ''
     }
   },
   methods: {
     ...mapActions([
       'login',
       'increment1',
-      'increment2'
+      'increment2',
+      'testAsync'
     ])
   }
 }
