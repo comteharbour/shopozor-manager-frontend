@@ -1,85 +1,46 @@
 import types from '../../../types'
+import * as storage from '../storage'
+import * as helpers from '../helpers'
 
-// Problème: les données du serveur sont copiées dans une constante à chaque accès
-export const read = () => JSON.parse(localStorage.getItem('fake_server'))
-export const write = newServerData =>
-  localStorage.setItem('fake_server', JSON.stringify(newServerData))
+// Problème: toutes les données du serveur sont copiées dans une constante à chaque accès
 
-export const userDoesExist = email => {
-  const users = read().users
-  for (let userIndex in users) {
-    if (email === users[userIndex].email) {
-      return true
-    }
-  }
-  return false
-}
-
-export const createUser = (email, password) => {
+export const createUser = ({ email, password }) => {
   const newUser = {
     email: email,
+    id: email,
     password: password,
     authorization: types.auth.CONSUMER
   }
-  const oldServerData = read()
+  const oldServerData = storage.read()
   const newUsers = [...oldServerData.users, newUser]
   const newServerData = { ...oldServerData, users: newUsers }
-  write(newServerData)
+  storage.write(newServerData)
 }
 
-export const emailAndPasswordMatch = (email, password) => {
-  const users = read().users
-  for (let userIndex in users) {
-    if (
-      email === users[userIndex].email &&
-      password === users[userIndex].password
-    ) {
-      return true
-    }
-  }
-  return false
+export const getToken = ({ email }) => {
+  const token = generateToken({ email })
+  helpers.updateUser({ email, newProps: { token } })
+  return token
 }
 
-export const getUserIndex = email => {
-  const users = read().users
-  for (let userIndex in users) {
-    if (email === users[userIndex].email) {
-      return userIndex
-    }
-  }
-  console.error(`Can't find ${email} on server.`)
+const generateToken = ({ email }) => {
+  const id = getId({ email })
+  return `${id}'s token was created on ${Date()}`
 }
 
-export const updateUserProfile = (email, newProfile) => {
-  const index = getUserIndex(email)
-
-  const oldServerData = read()
-  const newUser = { ...oldServerData.users[index], profile: newProfile }
-  const newUsers = oldServerData.users
-  newUsers.splice(index, 1, newUser)
-  const newServerData = { ...oldServerData, users: newUsers }
-
-  write(newServerData)
+export const removeToken = ({ email, id }) => {
+  helpers.updateUser({email, id, token: undefined})
 }
 
-export const changeUserEmail = (oldEmail, newEmail) => {
-  const index = getUserIndex(oldEmail)
-
-  const oldServerData = read()
-  const newUser = { ...oldServerData.users[index], email: newEmail }
-  const newUsers = [...oldServerData.users, newUser]
-  const newServerData = { ...oldServerData, users: newUsers }
-
-  write(newServerData)
+export const getId = ({ email }) => {
+  const user = helpers.getUser({ email })
+  return user.id
 }
 
-export const changeUserPassword = (email, newPassword) => {
-  const index = getUserIndex(email)
+export const changeUserEmail = ({ id, oldEmail, newEmail }) => {
+  helpers.updateUser({ id, email: oldEmail, newProps: { email: newEmail } })
+}
 
-  const oldServerData = read()
-  const newUser = { ...oldServerData.users[index], password: newPassword }
-  const newUsers = [...oldServerData.users, newUser]
-  const newServerData = { ...oldServerData, users: newUsers }
-
-  write(newServerData)
+export const changeUserPassword = ({ email, id, newPassword }) => {
+  helpers.updateUser({ email, id, newProps: { password: newPassword } })
 }

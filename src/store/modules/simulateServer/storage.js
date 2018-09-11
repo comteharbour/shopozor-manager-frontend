@@ -5,14 +5,16 @@ const fakeServerData = {
     {
       email: '1@1.1',
       password: '111111',
-      authorization: types.auth.CONSUMER,
+      id: '1@1.1',
+      authorization: [types.auth.CONSUMER],
       profile: {},
       orders: []
     },
     {
       email: '2@2.2',
       password: '222222',
-      authorization: types.auth.PRODUCER,
+      id: '2@2.2',
+      authorization: [types.auth.CONSUMER, types.auth.PRODUCER],
       profile: {},
       orders: [],
       deliverablesShops: ['budz-01'],
@@ -21,7 +23,8 @@ const fakeServerData = {
     {
       email: '3@3.3',
       password: '333333',
-      authorization: types.auth.SHOP_MANAGER,
+      id: '3@3.3',
+      authorization: [types.auth.CONSUMER, types.auth.PRODUCER, types.auth.SHOP_MANAGER],
       profile: {},
       orders: [],
       products: [],
@@ -33,6 +36,7 @@ const fakeServerData = {
     {
       email: '4@4.4',
       password: '444444',
+      id: '4@4.4',
       authorization: types.auth.TOP_MANAGER,
       profile: {},
       orders: [],
@@ -41,6 +45,7 @@ const fakeServerData = {
     {
       email: '5@5.5',
       password: '555555',
+      id: '5@5.5',
       authorization: types.auth.SOFTOZOR
     }
   ]
@@ -48,4 +53,10 @@ const fakeServerData = {
 
 export const initFakeServer = () => {
   localStorage.setItem('fake_server', JSON.stringify(fakeServerData))
+}
+
+export const read = () => JSON.parse(localStorage.getItem('fake_server'))
+
+export const write = newServerData => {
+  localStorage.setItem('fake_server', JSON.stringify(newServerData))
 }
