@@ -1,1 +1,31 @@
 // app global css
+@keyframes szr-shake {
+  0% {
+    transform: translateX(0)
+    }
+  20% {
+    transform: translateX(27px)
+  }
+  40% {
+      transform: translateX(-18px)
+    }
+  60% {
+      transform: translateX(12px)
+  }
+  80% {
+      transform: translateX(-8px)
+      }
+  to {
+    transform: translateX(0)
+  }
+}
+
+.q-field-with-error {
+  animation-duration: 0.3s;
+  animation-name: szr-shake;
+}
+
+// .q-field-with-error {
+//   animation-duration: 0.3s;
+//   animation-name: shake;
+// }

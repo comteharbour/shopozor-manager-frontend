@@ -1,11 +1,14 @@
+import pages from './pages'
+
+const links = Object.keys(pages).map(key => {
+  return { path: pages[key].path, component: pages[key].component }
+})
 
 const routes = [
   {
     path: '/',
     component: () => import('layouts/szr-layout.vue'),
-    children: [
-      { path: '', component: () => import('pages/Index.vue') }
-    ]
+    children: links
   }
 ]
 

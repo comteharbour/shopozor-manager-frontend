@@ -1,51 +1,51 @@
-import types from '../../types'
+import types from '../../../types'
 
 const fakeServerData = {
   users: [
     {
-      email: '1@1.1',
-      password: '111111',
-      id: '1@1.1',
-      authorization: [types.auth.CONSUMER],
+      email: 'client@budzons.ch',
+      password: 'Budzonnerie1',
+      userId: 'client',
+      authorization: types.auth.CONSUMER,
       profile: {},
       orders: []
     },
     {
-      email: '2@2.2',
-      password: '222222',
-      id: '2@2.2',
-      authorization: [types.auth.CONSUMER, types.auth.PRODUCER],
+      email: 'producteur@budzons.ch',
+      password: 'Budzonnerie1',
+      userId: 'producteur',
+      authorization: types.auth.PRODUCER,
       profile: {},
       orders: [],
       deliverablesShops: ['budz-01'],
       products: []
     },
     {
-      email: '3@3.3',
-      password: '333333',
-      id: '3@3.3',
-      authorization: [types.auth.CONSUMER, types.auth.PRODUCER, types.auth.SHOP_MANAGER],
+      email: 'gerant@budzons.ch',
+      password: 'Budzonnerie1',
+      userId: 'gérant',
+      authorization: types.auth.SHOP_MANAGER,
       profile: {},
       orders: [],
       products: [],
       shop: {
-        id: 'budz-01',
-        producers: ['2@2.2', '3@3.3']
+        userId: 'budz-01',
+        producers: ['producteur@budzons.ch', 'gerant@budzons.ch']
       }
     },
     {
-      email: '4@4.4',
-      password: '444444',
-      id: '4@4.4',
+      email: 'manager@budzons.ch',
+      password: 'Budzonnerie1',
+      userId: 'manager',
       authorization: types.auth.TOP_MANAGER,
       profile: {},
       orders: [],
       products: []
     },
     {
-      email: '5@5.5',
-      password: '555555',
-      id: '5@5.5',
+      email: 'softozor@budzons.ch',
+      password: 'Budzonnerie1',
+      userId: 'softozor',
       authorization: types.auth.SOFTOZOR
     }
   ]

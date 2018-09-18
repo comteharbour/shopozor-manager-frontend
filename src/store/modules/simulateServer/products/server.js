@@ -2,45 +2,45 @@
 // import * as storage from '../storage'
 import * as helpers from '../helpers'
 
-export const createProduct = ({ email, id, newProduct }) => {
-  const user = helpers.getUser({ email, id })
+export const createProduct = ({ email, userId, newProduct }) => {
+  const user = helpers.getUser({ email, userId })
   const productWithId = {
-    id: generateProductId({ userId: user.id }),
+    userId: generateProductId({ userId: user.userId }),
     ...newProduct
   }
   const newProducts = user.products
   newProducts.push(productWithId)
-  helpers.updateUser({ email, id, newProps: { products: newProducts } })
+  helpers.updateUser({ email, userId, newProps: { products: newProducts } })
 }
 
 const generateProductId = ({ userId }) => `${userId}-${Date()}`
 
-export const getProducts = ({ id, email }) => {
-  const user = helpers.getUser({ email, id })
+export const getProducts = ({ userId, email }) => {
+  const user = helpers.getUser({ email, userId })
   return user.products
 }
 
-export const updateProduct = ({ userEmail, userId, productId, newProps }) => {
-  const user = helpers.getUser({ email: userEmail, id: userId })
-  const productIndex = helpers.getProductIndex({ userEmail, userId, productId })
+export const updateProduct = ({ email, userId, productId, newProps }) => {
+  const user = helpers.getUser({ email, userId })
+  const productIndex = helpers.getProductIndex({ email, userId, productId })
   const newProduct = { ...user.products[productIndex], ...newProps }
   const newProducts = user.products
   newProducts.splice(productIndex, 1, newProduct)
   helpers.updateUser({
-    email: userEmail,
-    id: userId,
+    email,
+    userId,
     newProps: { products: newProducts }
   })
 }
 
-export const removeProduct = ({ userEmail, userId, productId }) => {
-  const user = helpers.getUser({ email: userEmail, id: userId })
-  const productIndex = helpers.getProductIndex({ userEmail, userId, productId })
+export const removeProduct = ({ email, userId, productId }) => {
+  const user = helpers.getUser({ email, userId })
+  const productIndex = helpers.getProductIndex({ email, userId, productId })
   const newProducts = user.products
   newProducts.splice(productIndex, 1)
   helpers.updateUser({
-    email: userEmail,
-    id: userId,
+    email,
+    userId,
     newProps: { products: newProducts }
   })
 }

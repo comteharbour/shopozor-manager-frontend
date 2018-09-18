@@ -1,24 +1,24 @@
 import * as server from './server'
 import * as validate from '../validate'
-import types from '../../../types'
+import types from '../../../../types'
 
 const delayInMs = 1000
 
-export const createProduct = ({ id, token, newProduct }) => {
+export const createProduct = ({ userId, token, newProduct }) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       if (
-        validate.tokenIsValid({ id, token }) &&
+        validate.tokenIsValid({ userId, token }) &&
         validate.userHasAuthorization({
-          id,
+          userId,
           authorization: types.auth.PRODUCER
         }) &&
         validate.productIsValid({ product: newProduct })
       ) {
-        server.createProduct({ id, newProduct })
+        server.createProduct({ userId, newProduct })
         resolve({
           message: `[CREATE_PRODUCT] new product successfully created`,
-          products: server.getProducts({ id })
+          products: server.getProducts({ userId })
         })
       } else {
         reject(new Error(`[CREATE_PRODUCT] could not create product`))
@@ -27,13 +27,13 @@ export const createProduct = ({ id, token, newProduct }) => {
   })
 }
 
-export const getProducts = ({ id, token }) => {
+export const getProducts = ({ userId, token }) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (validate.tokenIsValid({ id, token })) {
+      if (validate.tokenIsValid({ userId, token })) {
         resolve({
           message: `[GET_PRODUCTS] products successfully received`,
-          products: server.getProducts({ id })
+          products: server.getProducts({ userId })
         })
       } else {
         reject(new Error('[GET_PRODUCTS] not authorized'))
@@ -45,11 +45,11 @@ export const getProducts = ({ id, token }) => {
 export const updateProduct = ({ userId, token, productId, newProps }) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (validate.tokenIsValid({ id: userId, token })) {
+      if (validate.tokenIsValid({ userId, token })) {
         server.updateProduct({ userId, productId, newProps })
         resolve({
           message: `[UPDATE_PRODUCT] product successfully updated`,
-          products: server.getProducts({ id: userId })
+          products: server.getProducts({ userId })
         })
       } else {
         reject(new Error(`[UPDATE_PRODUCT] not authorized`))
@@ -61,11 +61,11 @@ export const updateProduct = ({ userId, token, productId, newProps }) => {
 export const removeProduct = ({ userId, token, productId }) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (validate.tokenIsValid({ id: userId, token })) {
+      if (validate.tokenIsValid({ userId, token })) {
         server.removeProduct({ userId, productId })
         resolve({
           message: `[REMOVE_PRODUCT] product successfully removed`,
-          products: server.getProducts({ id: userId })
+          products: server.getProducts({ userId })
         })
       } else {
         reject(new Error(`[REMOVE_PRODUCT] not authorized`))

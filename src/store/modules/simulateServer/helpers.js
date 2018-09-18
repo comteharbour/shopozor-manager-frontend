@@ -1,27 +1,26 @@
 import * as storage from './storage'
 
-export const getUserIndex = ({ email, id }) => {
+export const getUserIndex = ({ email, userId }) => {
   const users = storage.read().users
   for (let userIndex in users) {
-    if (email === users[userIndex].email || id === users[userIndex].id) {
+    if (email === users[userIndex].email || userId === users[userIndex].userId) {
       return userIndex
     }
   }
-  console.error(`Can't find ${email} / ${id} on server.`)
+  console.error(`Can't find ${email} / ${userId} on server.`)
 }
 
-export const getUser = ({ email, id }) => {
+export const getUser = ({ email, userId }) => {
   const users = storage.read().users
   for (let userIndex in users) {
-    if (email === users[userIndex].email || id === users[userIndex].id) {
+    if (email === users[userIndex].email || userId === users[userIndex].userId) {
       return users[userIndex]
     }
   }
-  console.error(`Can't find ${email} / ${id} on server.`)
 }
 
-export const updateUser = ({ email, id, newProps }) => {
-  const userIndex = getUserIndex({ email, id })
+export const updateUser = ({ email, userId, newProps }) => {
+  const userIndex = getUserIndex({ email, userId })
   const oldServerData = storage.read()
   const newUser = { ...oldServerData.users[userIndex], ...newProps }
   const users = oldServerData.users
@@ -30,14 +29,16 @@ export const updateUser = ({ email, id, newProps }) => {
   storage.write(newServerData)
 }
 
-export const getProductIndex = ({ userEmail, userId, productId }) => {
-  const user = getUser({ email: userEmail, id: userId })
+export const getProductIndex = ({ email, userId, productId }) => {
+  const user = getUser({ email, userId })
   for (let productIndex in user.products) {
-    if (productId === user.products[productIndex].id) {
+    console.log(user.products[productIndex])
+    if (productId === user.products[productIndex].productId) {
+      console.log(productIndex)
       return productIndex
     }
   }
   console.error(
-    `Can't find product ${productId} of ${userEmail} / ${userId} on server.`
+    `Can't find product ${productId} of ${email} / ${userId} on server.`
   )
 }

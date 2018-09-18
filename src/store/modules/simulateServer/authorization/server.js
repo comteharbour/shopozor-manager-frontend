@@ -1,4 +1,4 @@
-import types from '../../../types'
+import types from '../../../../types'
 import * as storage from '../storage'
 import * as helpers from '../helpers'
 
@@ -7,9 +7,9 @@ import * as helpers from '../helpers'
 export const createUser = ({ email, password }) => {
   const newUser = {
     email: email,
-    id: email,
+    userId: email,
     password: password,
-    authorization: types.auth.CONSUMER
+    authorization: [types.auth.CONSUMER]
   }
   const oldServerData = storage.read()
   const newUsers = [...oldServerData.users, newUser]
@@ -24,23 +24,26 @@ export const getToken = ({ email }) => {
 }
 
 const generateToken = ({ email }) => {
-  const id = getId({ email })
-  return `${id}'s token was created on ${Date()}`
+  const userId = getId({ email })
+  return `${userId}'s token was created on ${Date()}`
 }
 
-export const removeToken = ({ email, id }) => {
-  helpers.updateUser({email, id, token: undefined})
+export const removeToken = ({ email, userId }) => {
+  helpers.updateUser({ email, userId, token: undefined })
 }
 
 export const getId = ({ email }) => {
   const user = helpers.getUser({ email })
-  return user.id
+  return user.userId
 }
 
-export const changeUserEmail = ({ id, oldEmail, newEmail }) => {
-  helpers.updateUser({ id, email: oldEmail, newProps: { email: newEmail } })
+export const changeUserEmail = ({ userId, oldEmail, newEmail }) => {
+  helpers.updateUser({ userId, email: oldEmail, newProps: { email: newEmail } })
 }
 
-export const changeUserPassword = ({ email, id, newPassword }) => {
-  helpers.updateUser({ email, id, newProps: { password: newPassword } })
+export const changeUserPassword = ({ email, userId, newPassword }) => {
+  helpers.updateUser({ email, userId, newProps: { password: newPassword } })
 }
+
+export const getAuthorization = ({ email, userId }) =>
+  helpers.getUser({ email, userId }).authorization

@@ -1,35 +1,36 @@
 import * as storage from './storage'
 import * as helpers from './helpers'
 
-export const userDoesExist = ({ email, id }) => {
+export const userDoesExist = ({ email, userId }) => {
   const users = storage.read().users
-  for (let userIndex in users) {
-    if (email === users[userIndex].email || id === users[userIndex].id) {
-      return true
-    }
-  }
-  return false
+  // for (let userIndex in users) {
+  //   if (email === users[userIndex].email || userId === users[userIndex].userId) {
+  //     return true
+  //   }
+  // }
+  // return false
+  return users.filter(user => user.email === email || user.userId === userId).length === 1
 }
 
-export const passwordIsValid = ({ email, id, password }) => {
-  const user = helpers.getUser({ email, id })
-  if ((email === user.email || id === user.id) && password === user.password) {
+export const passwordIsValid = ({ email, userId, password }) => {
+  const user = helpers.getUser({ email, userId })
+  if ((email === user.email || userId === user.userId) && password === user.password) {
     return true
   }
   return false
 }
 
-export const tokenIsValid = ({ id, token }) => {
-  const user = helpers.getUser({ id })
-  if (id === user.id && token === user.token) {
+export const tokenIsValid = ({ userId, token }) => {
+  const user = helpers.getUser({ userId })
+  if (user !== undefined && userId === user.userId && token === user.token) {
     return true
   }
   return false
 }
 
-export const userHasAuthorization = ({ id, email, authorization }) => {
-  const user = helpers.getUser({ id, email })
-  if (id === user.id || email === user.email) {
+export const userHasAuthorization = ({ userId, email, authorization }) => {
+  const user = helpers.getUser({ userId, email })
+  if (userId === user.userId || email === user.email) {
     return true
   }
   return false

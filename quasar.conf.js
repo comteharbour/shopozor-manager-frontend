@@ -4,6 +4,7 @@ module.exports = function (ctx) {
   return {
     // app plugins (/src/plugins)
     plugins: [
+      'vuelidate'
     ],
     css: [
       'app.styl'
@@ -54,8 +55,12 @@ module.exports = function (ctx) {
         'QItem',
         'QItemMain',
         'QItemSide',
+        'QItemSeparator',
         'QField',
-        'QInput'
+        'QInput',
+        'QCheckbox',
+        'QToggle',
+        'QSpinner'
       ],
       directives: [
         'Ripple'
